@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.exceptions.DomainException;
+
 public class Reservation {
 	
 	private Integer roomNumber;
@@ -13,6 +15,10 @@ public class Reservation {
 	private static SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
 	
 	public Reservation(Integer roomNumber, Date checKin, Date checKOut) {
+		if(!checKOut.after(checKin)){
+			throw new DomainException("Errro in reservation: a data de checKOut tem que ser depois da data de check-in");
+		}
+
 		
 		this.roomNumber = roomNumber;
 		this.checKin = checKin;
@@ -40,17 +46,17 @@ public class Reservation {
 		
 	}
 	
-	public String updateDates(Date checKin,Date checKOut) {
+	public void updateDates(Date checKin,Date checKOut) {
 		Date now =new Date();
 		if(checKin.before(now) || checKOut.before(now)) {
-			return " Error in reservation: Tem que ser datas futuras.";
+			throw new DomainException( " Error in reservation: Tem que ser datas futuras.");
 		}
 		if(!checKOut.after(checKin)){
-			return "Errro in reservation: a data de checKOut tem que ser depois da data de check-in";
+			throw new DomainException("Errro in reservation: a data de checKOut tem que ser depois da data de check-in");
 		}
 		this.checKin=checKin;
 		this.checKOut=checKOut;
-		return null;
+		
 	}
 	
 	@Override
