@@ -11,6 +11,7 @@ public class Reservation {
 	private Date checKOut;
 	
 	private static SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+	
 	public Reservation(Integer roomNumber, Date checKin, Date checKOut) {
 		
 		this.roomNumber = roomNumber;
@@ -39,18 +40,26 @@ public class Reservation {
 		
 	}
 	
-	public void updateDates(Date checKOut,Date checKin) {
+	public String updateDates(Date checKin,Date checKOut) {
+		Date now =new Date();
+		if(checKin.before(now) || checKOut.before(now)) {
+			return " Error in reservation: Tem que ser datas futuras.";
+		}
+		if(!checKOut.after(checKin)){
+			return "Errro in reservation: a data de checKOut tem que ser depois da data de check-in";
+		}
 		this.checKin=checKin;
 		this.checKOut=checKOut;
+		return null;
 	}
 	
 	@Override
 	public String toString() {
 		return "Room"
 			+ roomNumber
-			+", checKin "
+			+", check-in "
 			+ sdf.format(checKin)
-			+", checKOut"
+			+", check-out"
 			+ sdf.format(checKOut)
 			+", "
 			+duration()

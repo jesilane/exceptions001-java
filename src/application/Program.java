@@ -17,36 +17,32 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		
 		SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+		
 		System.out.println("Room number");
 		int number=sc.nextInt();
 		System.out.println("Check-in date(dd/MM/yyyy): ");
-		Date checKIn=sdf.parse(sc.next());
+		Date checKin=sdf.parse(sc.next());
 		System.out.println("check-out date(dd/MM/yyyy): ");
 		Date checKOut=sdf.parse(sc.next());
 		
-		if(!checKOut.after(checKIn)) {
-			System.out.println("Errro in reservation: ");
+		if(!checKOut.after(checKin)) {
+			System.out.println("Errro in reservation:a data de checKOut tem que ser depois da data de check-in ");
 		}
 		else {
-			Reservation reservation=new Reservation(number,checKIn,checKOut);
+			Reservation reservation=new Reservation(number,checKin,checKOut);
 			System.out.println("Reservation :" + reservation);
-			
+		
 			System.out.println();
 			System.out.println("Enter data to update the reservation");
 			System.out.println("Check-in date(dd/MM/yyyy): ");
-			checKIn=sdf.parse(sc.next());
+			checKin=sdf.parse(sc.next());
 			System.out.println("check-out date(dd/MM/yyyy): ");
 			checKOut=sdf.parse(sc.next());
 			
-			Date now =new Date();
-			if(checKIn.before(now)||checKOut.before(now)) {
-				System.out.println(" Error in reservation: Tem que ser datas futuras.");
-			}
-			else if(!checKOut.after(checKIn)){
-				System.out.println("Errro in reservation: a data de checKOut tem que ser depois da data de check-in");
-				
-			}else {
-				reservation.updateDates(checKIn, checKOut);
+				String error=reservation.updateDates(checKin, checKOut);
+				if(error!=null) {
+					System.out.println("Errro in reservation:"+error);
+				}else {
 				System.out.println("Reservation :" + reservation);
 			}
 			
